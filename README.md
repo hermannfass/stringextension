@@ -1,7 +1,11 @@
 # Stringextension
 
-Opens the String class and adds funtionality to it, like
-for example replacing non-ASCII chars or word warpping.
+Opens the String class and adds funtionality.
+
+Such additional String features support making Strings 7-bit safe or
+appropriate for usage in filenames and URLs.
+Other methods add simple text processing funcionality like indentation
+to the String class.
 
 ## Installation
 
@@ -31,3 +35,4 @@ Or install it yourself as:
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
