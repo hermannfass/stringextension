@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 # Some extensions to the String class by
 # Hermann A. F a ß, hf@domain (domain is vonabiszet.de).
 
@@ -82,35 +83,61 @@ class String
     self.replace( self.to_ascii() )
   end
   
-  # Return a representation of this String's content with all those characters
-  # removed that could cause problems or inefficiencies when being used in
-  # URLs.
-  # This is also useful when constructing filenames. (Despite of the fact
-  # that most OSs support non-7bit characters and spaces it still recommended
-  # to make filenames URL safe from the very beginning.)
-  # Spaces are replaced by hyphens (not underscores) to support SEO.
-  def urlify
-    self.to_ascii.gsub(/\s+/, '-').gsub(/[^\w\-_]/, '_')
-  end
+    # Return a representation of this String's content with all those characters
+    # removed that could cause problems or inefficiencies when being used in
+    # URLs.
+    # This is also useful when constructing filenames. (Despite of the fact
+    # that most OSs support non-7bit characters and spaces it still recommended
+    # to make filenames URL safe from the very beginning.)
+    # Spaces are replaced by hyphens (not underscores) to support SEO.
+    def urlify
+        self.to_ascii.gsub(/\s+/, '-').gsub(/[^\w\-_]/, '_')
+    end
 
-  # Return a representation of this String's content that is useful to
-  # construct a file or directory name. Similar to
-  # urlify, but the dot is removed (leaving it for the suffix only)
-  # and words are connected by underscore characters (not hyphens).
-  def to_base_filename
-    self.urlify.gsub('.', '_')
-    self.to_ascii.gsub(/\s+/, '_').gsub(/[^\w\-_\.]/, '_')
-  end
+    # Return a representation of this String's content that is useful to
+    # construct a file or directory name. Similar to
+    # urlify, but the dot is removed (leaving it for the suffix only)
+    # and words are connected by underscore characters (not hyphens).
+    def to_base_filename
+        self.urlify.gsub('.', '_')
+        self.to_ascii.gsub(/\s+/, '_').gsub(/[^\w\-_\.]/, '_')
+    end
 
-  # Return the uppercase pendent of a letter.
-  # This includes non-ASCII characters!
-  #--
-  # Highly inefficient. 
-  # Consider moving the Hash uppercase_letter to a class variable
-  # and thus assign it only once.
-  #++
-  def upcase_unicode()
-    uppercase_letter = {
+
+    # Return the all-uppercase version of this String.
+    # This treats also non-ASCII characters well!
+    def unicode_upcase
+        UnicodeString.new(self).unicode_upcase
+    end
+
+    # Change the value of this String to its all-uppercase version.
+    # This treats also non-ASCII characters well!
+    def unicode_upcase!
+        self.replace( self.unicode_upcase )
+    end
+
+    # Return the all-lowercase version of this String.
+    # This treats also non-ASCII characters well!
+    def unicode_downcase
+        UnicodeString.new(self).unicode_downcase
+    end
+
+    # Change the value of this String to its all-lowercase version.
+    # This treats also non-ASCII characters well!
+    def unicode_downcase!
+        self.replace( self.unicode_downcase )
+    end
+
+end
+
+
+# Class to represent Strings that contain characters beyond ASCII.
+#--
+# Did not want to add this to String due to the class variables,
+# i.e. to keep the name space a bit cleaner.
+class UnicodeString < String
+
+    @@uppercase_letters = {
         "\u00DF" => 'SS',      #  ß
         "\u00E0" => "\u00C0",  #  à   c3 a0   LATIN SMALL LETTER A WITH GRAVE
         "\u00E1" => "\u00C1",  #  á   c3 a1   LATIN SMALL LETTER A WITH ACUTE
@@ -143,16 +170,31 @@ class String
         "\u00FD" => "\u00DE",  #  ý   c3 bd   LATIN SMALL LETTER Y WITH ACUTE
         "\u00FE" => "\u00DF",  #  þ   c3 be   LATIN SMALL LETTER THORN
     }
-    new_str = ''
-    self.each_char do |c|
-      new_str << (uppercase_letter[c]) ? uppercase_letter[c] : c.upcase()
-    end
-    new_str
-  end
 
-  def upcase_unicode!()
-    self.replace( self.upcase_unicode() )
-  end
+    @@lowercase_letters = {}
+    @@uppercase_letters.each_key do |c|
+        @@lowercase_letters[@@uppercase_letters[c]] = c
+    end
+
+    # Return the all-uppercase pendent of this UnicodeString.
+    # This treats also non-ASCII characters well!
+    def unicode_upcase() 
+        new_str = ''
+        each_char do |c|
+            new_str << ( (@@uppercase_letters[c]) ? @@uppercase_letters[c] : c.upcase )
+        end
+        new_str
+    end
+
+    # Return the all-lowercase version of this UnicodeString.
+    # This treats also non-ASCII characters well!
+    def unicode_downcase() 
+        new_str = ''
+        each_char do |c|
+            new_str << ( (@@lowercase_letters[c]) ? @@lowercase_letters[c] : c.downcase )
+        end
+        new_str
+    end
 
 end
 
