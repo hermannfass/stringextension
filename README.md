@@ -2,10 +2,10 @@
 
 Opens the String class and adds funtionality.
 
-Such additional String features support making Strings 7-bit safe or
-appropriate for usage in filenames and URLs.
-Other methods add simple text processing funcionality like indentation
-to the String class.
+Such additional String features support:
+Making Strings 7-bit safe or appropriate for usage in filenames and URLs;
+handle text indentation to the String class; allow to transform Strings
+with non-ASCII letters to all-uppercase and all-lowercase.
 
 ## Installation
 
@@ -23,10 +23,10 @@ Or install it yourself as:
 
 ## Usage
 
-  require 'stringextension'
-  str = "Maßvolle Änderungen"
-  puts str.to_ascii  # Massvolle Aenderungen
-  puts str.urlify    # Massvolle-Aenderungen
+    require 'stringextension'
+    str = "Maßvolle Änderungen"
+    puts str.to_ascii  # Massvolle Aenderungen
+    puts str.urlify    # Massvolle-Aenderungen
 
 ## Contributing
 
