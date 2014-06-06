@@ -24,9 +24,10 @@ Or install it yourself as:
 ## Usage
 
     require 'stringextension'
-    str = "Maßvolle Änderungen"
-    puts str.to_ascii  # Massvolle Aenderungen
-    puts str.urlify    # Massvolle-Aenderungen
+    str = "Maßvolle Änderungen im Château"
+    puts str.to_ascii  # Massvolle Aenderungen im Chateau
+    puts str.urlify    # Massvolle-Aenderungen-im-Chateau
+    str.unicode_upcase # MASSVOLLE ÄNDERUNGEN IM CHATEAU
 
 ## Contributing
 
