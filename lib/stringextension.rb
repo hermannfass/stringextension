@@ -128,6 +128,18 @@ class String
         self.replace( self.unicode_downcase )
     end
 
+    # Returns the value of this UnicodeString with the first character
+    # - if it is a letter - turned into uppercase letter and the prepending
+    # letters turned into the corresponding lowercase letter.
+    # This treats also non-ASCII initials well.
+    def unicode_capitalize
+        UnicodeString.new(self).unicode_capitalize
+    end
+
+    def unicode_capitalize!
+        self.replace( self.unicode_capitalize )
+    end
+
 end
 
 
@@ -172,8 +184,11 @@ class UnicodeString < String
     }
 
     @@lowercase_letters = {}
+    # Note the special behaviour of 'ß' which becomes a double character
+    # ('SS') in uppercase.
     @@uppercase_letters.each_key do |c|
         @@lowercase_letters[@@uppercase_letters[c]] = c
+        @@lowercase_letters['ß'] = 'ß'
     end
 
     # Return the all-uppercase pendent of this UnicodeString.
@@ -194,6 +209,14 @@ class UnicodeString < String
             new_str << ( (@@lowercase_letters[c]) ? @@lowercase_letters[c] : c.downcase )
         end
         new_str
+    end
+
+    # Returns the value of this UnicodeString with the first character
+    # turned into uppercase letter (if it is a letter) and the prepending
+    # letters turned into the corresponding lowercase letter.
+    # This treats also non-ASCII initials well.
+    def unicode_capitalize()
+        self[0].unicode_upcase() + self[1..self.length].unicode_downcase()
     end
 
 end
