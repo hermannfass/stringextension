@@ -5,6 +5,20 @@
 
 # Extpanding the String class by methods to remove special characters
 # and thereby make the string 7-bit or URL safe.
+#
+# In addition to the methods defined directly in the String class
+# several methods from the UnicodeString class have been added directly
+# to the String class for convenience. This allows to call now:
+# * to_bin()
+# * to_hex()
+# * to_dec()
+# * to_ascii
+# * to_ascii!()
+# * to_base_filename() and to_base_filename()
+# * urlify() and urlify!()
+# * unicode_upcase() and unicode_upcase!()
+# * unicode_downcase() and unicode_downcase!()
+# * unicode_capitalize() and unicode_capitalize!()
 class String
 
     # Add some methods of the UnicodeString class to the String class.
