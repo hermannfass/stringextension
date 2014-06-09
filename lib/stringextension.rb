@@ -146,6 +146,7 @@ end
 #--
 # Did not want to add this to String due to the class variables,
 # i.e. to keep the name space a bit cleaner.
+#++
 class UnicodeString < String
 
     @@uppercase_letters = {
