@@ -99,7 +99,6 @@ class String
     # urlify, but the dot is removed (leaving it for the suffix only)
     # and words are connected by underscore characters (not hyphens).
     def to_base_filename
-        self.urlify.gsub('.', '_')
         self.to_ascii.gsub(/\s+/, '_').gsub(/[^\w\-_\.]/, '_')
     end
 
